@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Post Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #e7e9ee;
+      padding: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .required:after {
+      content: " *";
+      color: red;
+    }
+
+    select, input[type="text"], input[type="date"], input[type="number"] {
+      padding: 10px;
+      width: 100%;
+      max-width: 300px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    .radio-group input {
+      margin-right: 5px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+
+    #chatbox {
+      display: none;
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      width: 320px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    #descriptionResult {
+      width: 100%;
+      height: 200px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #f8f9fa;
+      resize: vertical;
+      box-sizing: border-box;
+      font-family: inherit;
+      white-space: pre-wrap;
+    }
+
+    #salaryRange {
+      display: none;
+      margin-top: 10px;
+    }
+
+    #downloadBtn, #copyBtn {
+      display: none;
+      margin-top: 10px;
+    }
+
+    #downloadBtn {
+      background: #28a745;
+    }
+
+    #copyBtn {
+      background: #6c757d;
+    }
+
+    @media (max-width: 480px) {
+      select, input[type="text"], input[type="date"], input[type="number"] {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      #chatbox {
+        right: 10px;
+        bottom: 100px;
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>Post Generator</h2>
+
+  <div class="form-group">
+    <label for="companyType" class="required">Company Type:</label>
+    <select id="companyType" required>
+      <option value="">Select</option>
+      <option>Adept</option>
+      <option>Entrepreneur</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="postFor" class="required">Post For:</label>
+    <select id="postFor" required>
+      <option value="">Select</option>
+      <option>For my company</option>
+      <option>Personal</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="position" class="required">Position:</label>
+    <select id="position" required>
+      <option value="">Select</option>
+      <option>Internship</option>
+      <option>Full-time</option>
+      <option>Part-time</option>
+      <option>Contract</option>
+      <option>Project</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label class="required">Location:</label>
+    <div class="radio-group">
+      <input type="radio" name="location" value="Onsite" checked> Onsite
+      <input type="radio" name="location" value="Remote"> Remote
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="address" class="required">Address:</label>
+    <input type="text" id="address" placeholder="Enter Address" required>
+  </div>
+
+  <div class="form-group">
+    <label for="title" class="required">Title (for skills):</label>
+    <input type="text" id="title" placeholder="Enter Job Title" required>
+  </div>
+
+  <div class="form-group">
+    <label for="package" class="required">Package:</label>
+    <input type="text" id="package" placeholder="Package" onfocus="showSalaryRange()" required>
+    <div id="salaryRange">
+      <input type="number" id="salaryFrom" placeholder="From ₹">
+      <input type="number" id="salaryTo" placeholder="To ₹">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="lastDate" class="required">Last Date for submission:</label>
+    <input type="date" id="lastDate" required>
+  </div>
+
+  <div class="form-group">
+    <label for="vacancy" class="required">No. of Vacancy:</label>
+    <input type="number" id="vacancy" value="0" min="0" required>
+  </div>
+
+  <div class="form-group">
+    <label for="skills" class="required">Skills:</label>
+    <input type="text" id="skills" placeholder="Comma separated" required>
+  </div>
+
+  <div class="form-group">
+    <label for="keywords" class="required">Keywords:</label>
+    <input type="text" id="keywords" placeholder="Comma separated" required>
+  </div>
+
+  <div class="form-group">
+    <button class="btn" onclick="generateDescription()">
+      <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" alt="Chatbot" width="30" style="vertical-align: middle;"> Generate
+    </button>
+  </div>
+
+  <!-- Chat Popup Area -->
+  <div id="chatbox">
+    <textarea id="descriptionResult" placeholder="Generated description will appear here..."></textarea>
+    <p style="margin-top: 10px; color: #555;">You can make changes according to your preferences or edit accordingly.</p>
+    <button id="downloadBtn" class="btn" onclick="downloadDescription()">Download Description</button>
+    <button id="copyBtn" class="btn" onclick="copyToClipboard()">Copy to Clipboard</button>
+  </div>
+
+  <script>
+    function showSalaryRange() {
+      document.getElementById('salaryRange').style.display = 'block';
+    }
+
+    function validateFields(fields) {
+      for (const field of fields) {
+        const input = document.getElementById(field);
+        if (!input || !input.value.trim()) {
+          input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          input.focus();
+          input.style.border = "2px solid red";
+          return false;
+        } else {
+          input.style.border = "";
+        }
+      }
+      return true;
+    }
+
+    function generateDescription() {
+      const requiredFields = [
+        "companyType", "postFor", "position", "address", "title",
+        "package", "lastDate", "vacancy", "skills", "keywords"
+      ];
+
+      if (!validateFields(requiredFields)) {
+        alert("Please fill all required fields.");
+        return;
+      }
+
+      const packageVal = document.getElementById("package").value;
+      const salaryFrom = document.getElementById("salaryFrom").value;
+      const salaryTo = document.getElementById("salaryTo").value;
+      const salaryRange = salaryFrom && salaryTo ? `₹${salaryFrom} - ₹${salaryTo}` : packageVal;
+
+      const payload = {
+        companyType: document.getElementById("companyType").value,
+        postFor: document.getElementById("postFor").value,
+        position: document.getElementById("position").value,
+        location: document.querySelector('input[name="location"]:checked').value,
+        address: document.getElementById("address").value,
+        title: document.getElementById("title").value,
+        package: salaryRange,
+        lastDate: document.getElementById("lastDate").value,
+        vacancy: document.getElementById("vacancy").value,
+        skills: document.getElementById("skills").value,
+        keywords: document.getElementById("keywords").value
+      };
+
+      fetch('/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("descriptionResult").value = data.description;
+        document.getElementById("chatbox").style.display = "block";
+        document.getElementById("downloadBtn").style.display = "inline-block";
+        document.getElementById("copyBtn").style.display = "inline-block";
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.getElementById("descriptionResult").value = "Something went wrong!";
+        document.getElementById("chatbox").style.display = "block";
+        document.getElementById("downloadBtn").style.display = "none";
+        document.getElementById("copyBtn").style.display = "none";
+      });
+    }
+
+    function downloadDescription() {
+      const text = document.getElementById("descriptionResult").value;
+      const blob = new Blob([text], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'job_description.txt';
+      a.click();
+    }
+
+    function copyToClipboard() {
+      const text = document.getElementById("descriptionResult").value;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Copied to clipboard!");
+      });
+    }
+  </script>
+</body>
+</html>
