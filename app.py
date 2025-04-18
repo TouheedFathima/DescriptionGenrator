@@ -19,16 +19,11 @@ def generate():
     data = request.json
 
     # Extract wordCount separately
-    word_count = data.get('wordCount', 500)
-
-    # Join eligibility and benefits into strings for the prompt
-    eligibility = ', '.join(data.get('eligibility', []))
-    benefits = ', '.join(data.get('benefits', []))
+    word_count = data.get('wordCount', 500)  # Default to 150 if not provided
 
     # Define the prompt template
     prompt = ChatPromptTemplate.from_template(f"""
     Generate a professional job post description of around {word_count} words based on the following details:
-
     - Company Type: {{companyType}}
     - Post For: {{postFor}}
     - Position: {{position}}
@@ -40,11 +35,9 @@ def generate():
     - Vacancy: {{vacancy}}
     - Skills: {{skills}}
     - Keywords: {{keywords}}
-    - Eligibility: {{eligibility}}
-    - Benefits: {{benefits}}
 
     Write it in a natural, engaging way.
-    The description should be around {word_count} words. Don’t go much over or under.
+    The description should be around {word_count} words. Don't go much over or under.
     """)
 
     # Initialize the LLM model

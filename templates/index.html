@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Post Generator</title>
+    <title>Description Generator</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -15,8 +15,9 @@
       width: 100%;
       max-width: 700px;        /* optional width */
       margin: 0 auto;          /* center whole form block on page */
-      padding: 20px;
     }
+
+    
 
     .form-group {
       display: flex;
@@ -48,21 +49,43 @@
         margin-right: 5px;
       }
   
-      .btn {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 10px;
-        background: #007bff;
-        color: white;
-        cursor: pointer;
+          .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      min-width: calc(100% - 40px); 
+      display: inline-block; 
       }
-  
-      .radio-group {
+    
+
+    /* Hover effect */
+    .btn:hover {
+      background: #0056b3;
+    }
+
+    /* Click (active) effect */
+    .btn:active {
+      transform: scale(0.97);
+      background: #004a99;
+    }
+
+
+            .radio-group {
         display: flex;
         flex-direction: row;
-        gap: 20px;        /* space between each checkbox+label pair */
+        gap: 10px;
+        margin-top: 8px;
         align-items: center;
       }
+
+      #freshers, #experienced {
+        margin-right: 5px;
+      }
+
 
       #companyType,#postFor,#position,#address,#title,#package,#lastDate,#vacancy,#skills,#keywords,#wordCount{
         min-width: calc(100% - 40px); 
@@ -160,10 +183,10 @@
 
   <body>
     <div class="container">
-    <h2>Post Generator</h2>
+    <h2>Description Generator</h2>
     <!-- Your form fields -->
     <div class="form-group">
-      <label for="companyType" class="required">Technical & Entrepreneurial Traits:</label>
+      <label for="companyType" class="required">Company Type:</label>
       <select id="companyType" required>
         <option value="">Select</option>
         <option>Adept</option>
@@ -216,7 +239,7 @@
     </div>
 
     <div class="form-group">
-      <label for="title" class="required">Job Title/Role :</label>
+      <label for="title" class="required">Title (for skills):</label>
       <input type="text" id="title" placeholder="Enter Job Title" required>
     </div>
 
@@ -294,11 +317,13 @@
         <button onclick="formatText('bold')"><b>B</b></button>
         <button onclick="formatText('italic')"><i>I</i></button>
         <button onclick="formatText('underline')"><u>U</u></button>
-        <button onclick="formatText('justifyLeft')">Left</button>
-        <button onclick="formatText('justifyCenter')">Center</button>
-        <button onclick="formatText('justifyRight')">Right</button>
+        <button onclick="formatText('justifyLeft')">⯇</button>
+        <button onclick="formatText('justifyCenter')">≡</button>
+        <button onclick="formatText('justifyRight')">⯈</button>
+        <button onclick="formatText('undo')">↺</button>   <!-- Undo -->
+        <button onclick="formatText('redo')">↻</button>   <!-- Redo -->
       </div>
-
+      
       <div id="descriptionResult" contenteditable="true"
            placeholder="Generated description will appear here..."></div>
       <p style="margin-top: 10px; color: #555;">
