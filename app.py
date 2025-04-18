@@ -48,5 +48,7 @@ def generate():
     # Return the generated description as a JSON response
     return jsonify({'description': response})
 
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 4000))  # fallback to 4000 if PORT is not set
+    app.run(host="0.0.0.0", port=port)
