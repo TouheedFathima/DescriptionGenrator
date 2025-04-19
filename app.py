@@ -24,9 +24,10 @@ def generate():
     # Define the prompt template
     prompt = ChatPromptTemplate.from_template(f"""
     Generate a professional job post description of around {word_count} words based on the following details:
+    - Company Name: {{companyName}}
     - Company Type: {{companyType}}
     - Post For: {{postFor}}
-    - Position: {{position}}
+    - Post Type: {{postType}}
     - Location Type: {{location}}
     - Address: {{address}}
     - Job Title: {{title}}
@@ -36,8 +37,10 @@ def generate():
     - Skills: {{skills}}
     - Keywords: {{keywords}}
 
-    Write it in a natural, engaging way.
-    The description should be around {word_count} words. Don't go much over or under.
+    Here is a draft provided by the user:
+    "{{description}}"
+
+    Please improve this draft and make it sound more professional, engaging, and polished. Elaborate where needed and ensure it is clear and compelling to job seekers. Stick to around {word_count} words.
     """)
 
     # Initialize the LLM model
