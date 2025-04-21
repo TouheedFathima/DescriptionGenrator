@@ -311,8 +311,8 @@
     </div>
 
     <div class="form-group">
-      <label for="description" class="required">Describe the Post:</label>
-      <textarea id="description" rows="4" placeholder="Describe the type of post and for whom it is meant..." required></textarea>
+      <label for="description" >Describe the Post:</label>
+      <textarea id="description" rows="4" placeholder="Describe the type of post and for whom it is meant..." ></textarea>
     </div>
     
 
@@ -414,7 +414,7 @@
   function generateDescription() {
   const requiredFields = [
     "companyName","companyType", "postFor", "postType", "address", "title",
-    "package", "lastDate", "vacancy", "skills", "keywords","description"
+    "package", "lastDate", "vacancy", "skills", "keywords"
   ];
 
   if (!validateFields(requiredFields)) {

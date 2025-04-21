@@ -1,13 +1,9 @@
 import os
 from flask import Flask, request, jsonify, render_template
-from langchain_groq import ChatGroq
-from langchain.prompts import ChatPromptTemplate
-from langchain.chains import LLMChain
 from dotenv import load_dotenv
+from description_generator import generate_description  # 👈 Use this!
 
-# Load environment variables
 load_dotenv()
-
 app = Flask(__name__)
 
 @app.route('/')
@@ -17,46 +13,7 @@ def index():
 @app.route('/generate', methods=['POST'])
 def generate():
     data = request.json
-
-    # Extract wordCount separately
-    word_count = data.get('wordCount', 500)  # Default to 150 if not provided
-
-    # Define the prompt template
-    prompt = ChatPromptTemplate.from_template(f"""
-    Generate a professional job post description of around {word_count} words based on the following details:
-    - Company Name: {{companyName}}
-    - Company Type: {{companyType}}
-    - Post For: {{postFor}}
-    - Post Type: {{postType}}
-    - Location Type: {{location}}
-    - Address: {{address}}
-    - Job Title: {{title}}
-    - Package: {{package}}
-    - Last Date: {{lastDate}}
-    - Vacancy: {{vacancy}}
-    - Skills: {{skills}}
-    - Keywords: {{keywords}}
-
-    Here is a draft provided by the user:
-    "{{description}}"
-
-    Please improve this draft and make it sound more professional, engaging, and polished. Elaborate where needed and ensure it is clear and compelling to job seekers. Stick to around {word_count} words.
-    """)
-
-    # Initialize the LLM model
-    llm = ChatGroq(
-        temperature=0.7,
-        groq_api_key=os.getenv("GROQ_API_KEY"),
-        model_name="llama3-70b-8192"
-    )
-
-    # Chain the LLM with the prompt
-    chain = LLMChain(llm=llm, prompt=prompt)
-
-    # Run the chain with the provided data
-    response = chain.run(data)
-
-    # Return the generated description
+    response = generate_description(data)  # 👈 Use your custom prompt logic
     return jsonify({'description': response})
 
 if __name__ == '__main__':
