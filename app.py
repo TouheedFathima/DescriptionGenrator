@@ -1,7 +1,7 @@
 import os
 from flask import Flask, request, jsonify, render_template
 from dotenv import load_dotenv
-from description_generator import generate_description  # 👈 Use this!
+from description_generator import generate_description 
 
 load_dotenv()
 app = Flask(__name__)
@@ -13,7 +13,7 @@ def index():
 @app.route('/generate', methods=['POST'])
 def generate():
     data = request.json
-    response = generate_description(data)  # 👈 Use your custom prompt logic
+    response = generate_description(data)  
     return jsonify({'description': response})
 
 if __name__ == '__main__':
