@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Description Generator</title>
     <style>
+       @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Lato&family=Roboto&family=Inter&display=swap');
       body {
         font-family: Arial, sans-serif;
         background: #e7e9ee;
@@ -80,7 +81,6 @@
       transform: scale(1.1); /* optional: slightly larger */
     }
 
-
     /* Hover effect */
     .btn:hover {
       background: #0056b3;
@@ -96,7 +96,6 @@
       #freshers, #experienced {
         margin-right: 5px;
       }
-
 
       #companyName,#companyType,#postFor,#postType,#address,#title,#package,#lastDate,#vacancy,#skills,#keywords,#wordCount,#description{
         min-width: calc(100% - 40px); 
@@ -131,7 +130,6 @@
         overflow-y: auto; /* Enables vertical scroll */
         overflow-x: hidden; /* Prevents horizontal scroll */
       }
-
   
       #salaryRange {
         display: none;
@@ -202,13 +200,12 @@
     </style>
 
   </head>
-
   <body>
     <div class="container">
     <h2>Description Generator</h2>
     <!-- Your form fields -->
     <div class="form-group">
-      <label for="companyType" class="required">Company Type:</label>
+      <label for="companyType" class="required">Recruitment Type:</label>
       <select id="companyType" required>
         <option value="">Select</option>
         <option>Adept</option>
@@ -366,7 +363,18 @@
         <button onclick="formatText('justifyRight')">⯈</button>
         <button onclick="formatText('undo')">↺</button>   <!-- Undo -->
         <button onclick="formatText('redo')">↻</button>   <!-- Redo -->
-      </div>
+        <select id="fontSelector" onchange="changeFont(this.value)">
+          <option value="">Font Style</option>
+          <option value="Helvetica">Helvetica</option>
+          <option value="Arial">Arial</option>
+          <option value="Roboto">Roboto</option>
+          <option value="Open Sans">Open Sans</option>
+          <option value="Lato">Lato</option>
+          <option value="Segoe UI">Segoe UI</option>
+          <option value="Inter">Inter</option>
+          <option value="Times New Roman">Times New Roman</option>
+        </select>
+      </div>      
       
       <div id="descriptionResult" contenteditable="true"
            placeholder="Generated description will appear here..."></div>
@@ -508,6 +516,10 @@
     link.download = "description.txt";
     link.click();
   }
+  function changeFont(fontName) {
+  document.execCommand("fontName", false, fontName);
+  }
+
 </script>
 </div>
 </body>
