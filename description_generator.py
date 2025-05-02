@@ -104,8 +104,7 @@ Format:
         intro_instruction = "Create an internship post that is inviting to students or fresh graduates. Emphasize learning, mentorship, and potential growth opportunities. Keep the tone encouraging and professional. You must include any additional valuable or relevant information that would improve the clarity, appeal, or completeness of the post with relevant headings."
         format_instruction = """
 Format:
-<b>Internship Position:</b> [Title]  
-<b>Company:</b> [Company Name]  
+<b>Internship Position:</b> [Title]   
 <b>Location:</b> [City/Remote/Hybrid]  
 <b>Internship Type:</b> Full-Time/Part-Time Internship  
 
@@ -139,7 +138,6 @@ Format:
         format_instruction = """
 Format:
 <b>Contract Role:</b> [Title]  
-<b>Company:</b> [Company Name]  
 <b>Location:</b> [On-site/Remote]  
 <b>Type:</b> Contract-Based (X months)  
 
@@ -170,7 +168,6 @@ Format:
         format_instruction = """
 Format:
 <b>Project Title:</b> [Title]  
-<b>Initiated By:</b> [Company or Individual Name]  
 <b>Location:</b> [Remote/On-site/Hybrid]  
 
 <b>Project Overview:</b>  
