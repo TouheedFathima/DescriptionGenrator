@@ -142,7 +142,7 @@ Format:
 <b>Type:</b> Contract-Based (X months)  
 
 <b>Overview:</b>  
-[Short intro to project and company.]
+[Short intro to project.]
 
 <b>Responsibilities:</b>  
 <ul>
