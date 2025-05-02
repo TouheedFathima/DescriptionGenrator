@@ -214,8 +214,8 @@
     </div>
 
     <div class="form-group">
-      <label for="companyName" class="required">Company Name:</label>
-      <input type="text" id="companyName" placeholder="Enter company name" required />
+      <label for="companyName">Company Name:</label>
+      <input type="text" id="companyName" placeholder="Not required for Adept recruitment – leave blank or enter 'Individual' if hiring personally." required />
     </div>
     
     <div class="form-group">
@@ -421,7 +421,7 @@
 
   function generateDescription() {
   const requiredFields = [
-    "companyName","companyType", "postFor", "postType", "address", "title",
+    "companyType", "postFor", "postType", "address", "title",
     "package", "lastDate", "vacancy", "skills", "keywords"
   ];
 
