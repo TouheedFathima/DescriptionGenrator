@@ -280,7 +280,6 @@
       <!-- Read-only display input -->
       <input type="text" id="package" placeholder="Click to enter range" readonly onclick="showSalaryRange()" required>
 
-      <!-- Hidden inputs for range -->
       <div id="salaryRange" style="display: none; margin-top: 10px;">
         <input type="number" id="salaryFrom" placeholder="From ₹" oninput="updatePackageValue()" />
         <input type="number" id="salaryTo" placeholder="To ₹" oninput="updatePackageValue()" />
@@ -516,10 +515,20 @@
     link.download = "description.txt";
     link.click();
   }
+
   function changeFont(fontName) {
   document.execCommand("fontName", false, fontName);
   }
 
+  document.addEventListener("DOMContentLoaded", function() {
+  const dateInput = document.getElementById("lastDate");
+
+  if (dateInput && typeof dateInput.showPicker === 'function') {
+    dateInput.addEventListener("focus", function () {
+      this.showPicker(); // Open date picker on focus
+    });
+  }
+});
 </script>
 </div>
 </body>
