@@ -2,9 +2,11 @@ import os
 from flask import Flask, request, jsonify, render_template
 from dotenv import load_dotenv
 from description_generator import generate_description
+from flask_cors import CORS
 
 load_dotenv()
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def index():

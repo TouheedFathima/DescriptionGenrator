@@ -508,7 +508,7 @@
 
   function downloadDescription() {
     const content = document.getElementById('descriptionResult').innerHTML;
-    const text = content.replace(/<[^>]+>/g, ''); // Strip HTML tags
+    const text = content.replace(/<[^>]+>/g, ''); 
     const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
@@ -525,7 +525,7 @@
 
   if (dateInput && typeof dateInput.showPicker === 'function') {
     dateInput.addEventListener("focus", function () {
-      this.showPicker(); // Open date picker on focus
+      this.showPicker(); 
     });
   }
 });
