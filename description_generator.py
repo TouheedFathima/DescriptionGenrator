@@ -1,33 +1,27 @@
 import os
+import re
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain.prompts import ChatPromptTemplate
 from langchain.chains import LLMChain
-from langchain.prompts import PromptTemplate
 
 load_dotenv()
 
 force_elaboration = True
-from langchain.prompts import PromptTemplate
 
-prompt = PromptTemplate(
-    input_variables=["data"],
-    template="""
-You are an assistant that formats output in HTML only.
-Use <b>, <i>, <ul>, <li>, <br>, <p>, etc., to style and structure the content.
-Avoid Markdown formatting such as **bold**, *italic*, or `code`.
-Strictly return only valid HTML.
-
-Data to format:
-{data}
-
-- Ensure that there is no extra space between bullet points (<li> tags). 
-- Make sure each <li> item is directly after the previous one without unnecessary line breaks or extra spaces.
-- There should be no empty lines between the <li> elements in the <ul> list.
-- Format <ul> lists with correct spacing to avoid the appearance of too much vertical space between items.
-- Ensure clean and uniform spacing in the final output, especially between <li> elements.
-"""
-)
+def clean_html_spacing(html):
+    """
+    Clean up HTML output by removing extra line breaks and spaces between <li> elements.
+    Ensures tight spacing within <ul> lists while preserving spacing between sections.
+    """
+    # Replace multiple line breaks and spaces between </li> and <li> with a single occurrence
+    cleaned_html = re.sub(r'</li>\s*<li>', '</li><li>', html)
+    # Remove any leading/trailing spaces within <ul> tags
+    cleaned_html = re.sub(r'<ul>\s*', '<ul>', cleaned_html)
+    cleaned_html = re.sub(r'\s*</ul>', '</ul>', cleaned_html)
+    # Ensure consistent section spacing (e.g., two <br> tags between sections)
+    cleaned_html = re.sub(r'</ul>\s*<b>', '</ul><br><br><b>', cleaned_html)
+    return cleaned_html
 
 def generate_description(data):
     word_count = data.get("wordCount", 1000)
@@ -104,7 +98,7 @@ Format:
         intro_instruction = "Create an internship post that is inviting to students or fresh graduates. Emphasize learning, mentorship, and potential growth opportunities. Keep the tone encouraging and professional. You must include any additional valuable or relevant information that would improve the clarity, appeal, or completeness of the post with relevant headings."
         format_instruction = """
 Format:
-<b>Internship Position:</b> [Title]   
+<b>Internship Position:</b> [Title]  
 <b>Location:</b> [City/Remote/Hybrid]  
 <b>Internship Type:</b> Full-Time/Part-Time Internship  
 
@@ -235,12 +229,13 @@ Format:
     - Use only <b>, not ** for bold. If you output any Markdown, I will fail you 😅 
     - Your response should be suitable for direct copy-pasting into a web page or an email client that supports HTML formatting. Avoid all markdown and use only valid HTML tags for formatting.
     - Use bullet points where appropriate.
-    - Ensure clean spacing between sections, and no extra line breaks.
+    - For all <ul> lists, ensure there are NO extra line breaks or spaces between <li> elements. The <li> tags must be directly consecutive, like this: <ul><li>Item 1</li><li>Item 2</li></ul>. Do NOT add any spaces or line breaks between </li> and <li>.
+    - Ensure exactly two <br> tags between sections (e.g., between </ul> and the next <b> heading) for clean spacing.
     - Output should be ready to copy-paste into LinkedIn/email without editing.
     - Use the company name naturally — don’t include 'companyType'.
     - Follow the format above as a structure guide, but **you must include any additional valuable or relevant information** that would improve the clarity, appeal, or completeness of the post.
     - Ensure the response is at least {word_count} words. Expand each section thoughtfully with relevant details, examples, subpoints, and insights. Use additional subheadings or elaboration to reach the minimum word count.
-    - Present any extra details under clear and appropriate subheadings for all different Post Types (e.g.for project, “Preferred Tools”, “Team Structure”, “Future Scope”, “Success Metrics”, e.g for internship :"what you'll learn"..etc.).
+    - Present any extra details under clear and appropriate subheadings for all different Post Types (e.g., for project, “Preferred Tools”, “Team Structure”, “Future Scope”, “Success Metrics”, e.g., for internship: "What You'll Learn", etc.).
     - Do not limit the content strictly to the provided format — treat it as a base to build on.
     - You are encouraged to add relevant subheadings beyond the format if needed (e.g., "Preferred Tools", "Project Stack", "Success Metrics", "Challenges You’ll Face", "Collaboration Model", "Future Scope", etc.) to increase clarity and reach the desired length.
     - Follow the format above as a structure guide, but **feel free to include any additional valuable or relevant information** that would improve the clarity, appeal, or completeness of the post.
@@ -255,6 +250,6 @@ Additional Info Provided by User:
 
     chain = LLMChain(llm=llm, prompt=prompt)
     response = chain.run(data)
-    return response
-
-
+    # Post-process the response to ensure tight spacing
+    cleaned_response = clean_html_spacing(response)
+    return cleaned_response
