@@ -27,9 +27,7 @@ def generate():
         "title": {"message": "Title is required and cannot be empty"},
         "package": {"message": "Package is required"},
         "lastDate": {"message": "Last Date is required"},
-        "vacancy": {"message": "Vacancy must be a positive number", "validate": lambda v: v > 0},
-        "skills": {"message": "At least one skill is required", "validate": lambda v: isinstance(v, list) and len(v) > 0},
-        "keywords": {"message": "At least one keyword is required", "validate": lambda v: isinstance(v, list) and len(v) > 0}
+        "vacancy": {"message": "Vacancy must be a positive number", "validate": lambda v: v > 0}
     }
 
     # Validate mandatory fields
@@ -44,9 +42,6 @@ def generate():
     if isinstance(data.get("keywords"), str):
         data["keywords"] = [k.strip() for k in data["keywords"].split(",") if k.strip()]
 
-    # Re-validate skills and keywords after processing
-    if len(data["skills"]) == 0:
-        return jsonify({"error": "At least one skill is required", "field": "skills"}), 400
     if len(data["keywords"]) == 0:
         return jsonify({"error": "At least one keyword is required", "field": "keywords"}), 400
 
