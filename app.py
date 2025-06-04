@@ -17,6 +17,7 @@ def index():
 @app.route('/generate', methods=['POST'])
 def generate():
     data = request.json
+    print("Received payload:", data)  # Debug: Log the incoming payload
 
     # Define mandatory fields with validation rules
     mandatory_fields = {
@@ -24,6 +25,7 @@ def generate():
         "postFor": {"message": "Post For is required"},
         "postType": {"message": "Post Type is required"},
         "address": {"message": "Address is required and cannot be empty"},
+        "titleCategory": {"message": "Title Category is required and cannot be empty"},
         "title": {"message": "Title is required and cannot be empty"},
         "package": {"message": "Package is required"},
         "lastDate": {"message": "Last Date is required"},
@@ -33,6 +35,7 @@ def generate():
     # Validate mandatory fields
     for field, rule in mandatory_fields.items():
         value = data.get(field)
+        print(f"Validating {field}: {value} (type: {type(value)})")  # Debug: Log each field
         if value is None or (rule.get("validate") and not rule["validate"](value)) or (not rule.get("validate") and str(value).strip() == ""):
             return jsonify({"error": rule["message"], "field": field}), 400
 
@@ -42,6 +45,9 @@ def generate():
     if isinstance(data.get("keywords"), str):
         data["keywords"] = [k.strip() for k in data["keywords"].split(",") if k.strip()]
 
+    # Validate skills and keywords
+    if len(data.get("skills", [])) == 0:
+        return jsonify({"error": "At least one skill is required", "field": "skills"}), 400
     if len(data["keywords"]) == 0:
         return jsonify({"error": "At least one keyword is required", "field": "keywords"}), 400
 
@@ -50,6 +56,7 @@ def generate():
         response = generate_description(data)
         return jsonify({'description': response})
     except Exception as e:
+        print("Error in /generate:", str(e))  # Debug: Log any exceptions
         return jsonify({"error": f"Failed to generate description: {str(e)}"}), 500
 
 if __name__ == '__main__':
