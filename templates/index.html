@@ -177,6 +177,23 @@
         display: flex;
         gap: 10px;
         align-items: center;
+        width: 100%;
+        max-width: 300px;
+      }
+      .title-group select,
+      .title-group input[type="text"] {
+        width: 50%;
+        max-width: none;
+      }
+      @media (max-width: 480px) {
+        .title-group {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .title-group select,
+        .title-group input[type="text"] {
+          width: 100%;
+        }
       }
     </style>
   </head>
@@ -215,8 +232,8 @@
           <option value="">Select</option>
           <option>Internship(Stipend)</option>
           <option>Internship(Unpaid)</option>
-          <option>Part-time</option>
-          <option>Full-time</option>          
+          <option>Part time</option>
+          <option>Full time</option>          
           <option>Contract</option>
           <option>Project(Freelancers)</option>
           <option>Project(Service Companies)</option>

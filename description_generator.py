@@ -247,7 +247,7 @@ Format:
 """
     else:
         # Fallback for unmatched post_type
-        return f"<b>Error:</b> Invalid post type '{post_type}'. Please select a valid post type (e.g., Full-time, Part-time, Internship, Contract, or Project)."
+        return f"<b>Error:</b> Invalid post type '{post_type}'. Please select a valid post type (e.g., Full time, Part time, Internship(Stipend), Internship(Unpaid), Contract, Project(Freelancers), Project(Service Companies))."
 
     # LLM setup
     llm = ChatGroq(
