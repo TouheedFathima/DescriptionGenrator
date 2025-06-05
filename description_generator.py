@@ -133,7 +133,6 @@ Format:
     <li>[List of duties.]</li>
 </ul>
 
-<b>Stipend:</b> [Monthly stipend amount]  
 <b>Duration:</b> [X weeks/months]  
 """
 
@@ -178,7 +177,6 @@ Format:
         intro_instruction = "Generate a professional contract opportunity post. Focus on short-term project deliverables, duration, and payment. It is not a job. The tone should appeal to freelancers or short-term collaborators."
         format_instruction = f"""
 Format:
-<b>Contract Role:</b> {combined_title}  
 <b>Location:</b> [On-site/Remote]  
 <b>Type:</b> Contract-Based (X months)  
 
@@ -196,8 +194,6 @@ Format:
 </ul>
 
 <b>Contract Duration:</b> [e.g., 6 months]  
-<b>Compensation:</b> [Monthly/Total contract value]  
-<b>Deadline to Apply:</b> [Date]
 """
 
     elif post_type == "project(freelancers)":
@@ -219,7 +215,6 @@ Format:
 </ul>
 
 <b>Timeline:</b> [Expected duration or milestones]  
-<b>Compensation:</b> [Payment terms for freelancers]  
 """
 
     elif post_type == "project(service companies)":
