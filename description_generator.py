@@ -50,7 +50,7 @@ def generate_description(data):
     important_words = [word for word in important_words if word]
 
     # Instructions for different post types
-    if post_type == "full time":
+    if post_type == "Full Time":
         intro_instruction = "Generate a professional full-time job description targeted at attracting qualified candidates. The tone should be formal, aspirational, and highlight long-term career growth, company culture, and stability."
         format_instruction = """
 Format:
@@ -77,7 +77,7 @@ Format:
 </ul>
 """
 
-    elif post_type == "part time":
+    elif post_type == "Part Time":
         intro_instruction = "Generate a clear and professional part-time job description. Highlight flexible hours, key responsibilities, and the specific time commitment required. Keep the tone friendly yet informative."
         format_instruction = """
 Format:
@@ -104,7 +104,7 @@ Format:
 </ul>
 """
 
-    elif post_type == "internship(stipend)":
+    elif post_type == "Internship(Stipend)":
         intro_instruction = "Create a paid internship post that is inviting to students or fresh graduates. Emphasize learning, mentorship, potential growth opportunities, and the stipend as a financial incentive. Keep the tone encouraging and professional."
         format_instruction = """
 Format: 
@@ -134,7 +134,7 @@ Format:
 
 <b>Duration:</b> [X weeks/months]  
 """
-    elif post_type == "internship(unpaid)":
+    elif post_type == "Internship(Unpaid)":
         intro_instruction = "Create an unpaid internship post that is inviting to students or fresh graduates. Emphasize learning, mentorship, networking opportunities, and other non-monetary benefits to attract candidates. Keep the tone encouraging and professional."
         format_instruction = """
 Format: 
@@ -171,7 +171,7 @@ Format:
 <b>Duration:</b> [X weeks/months]  
 """
 
-    elif post_type == "contract":
+    elif post_type == "Contract":
         intro_instruction = "Generate a professional contract opportunity post. Focus on short-term project deliverables, duration, and payment. It is not a job. The tone should appeal to freelancers or short-term collaborators."
         format_instruction = f"""
 Format:
@@ -194,7 +194,7 @@ Format:
 <b>Contract Duration:</b> [e.g., 6 months]  
 """
 
-    elif post_type == "project(freelancers)":
+    elif post_type == "Project(Freelancers)":
         intro_instruction = "Generate a project collaboration post for individual freelancers. This is not a job but an opportunity for freelancers to contribute to a specific project with clear goals and timelines. Focus on skillset needed, project objectives, and payment terms. Keep the tone flexible and appealing to independent professionals."
         format_instruction = """
 Format:
@@ -215,7 +215,7 @@ Format:
 <b>Timeline:</b> [Expected duration or milestones]  
 """
 
-    elif post_type == "project(service companies)":
+    elif post_type == "Project(Service Companies)":
         intro_instruction = "Generate a project collaboration post for service companies. This is not a job but an opportunity for companies to collaborate on a specific project with clear goals and timelines. Focus on partnership potential, project scale, and required expertise. Keep the tone formal and professional."
         format_instruction = """
 Format:
