@@ -7,8 +7,7 @@ from flask_cors import CORS
 load_dotenv()
 app = Flask(__name__)
 
-# Configure CORS to allow requests from Opptiverse
-CORS(app, resources={r"/generate": {"origins": "https://app.opptiverse.com"}})
+CORS(app)  # Allow all origins for debugging
 
 @app.route('/')
 def index():
@@ -19,41 +18,21 @@ def generate():
     data = request.json
     print("Received payload:", data)  # Debug: Log the incoming payload
 
-    # Define mandatory fields with validation rules
-    mandatory_fields = {
-        "companyType": {"message": "Recruiter Type is required"},
-        "postFor": {"message": "Post For is required"},
-        "postType": {"message": "Post Type is required"},
-        "address": {"message": "Address is required and cannot be empty"},
-        "titleCategory": {"message": "Title Category is required and cannot be empty"},
-        "title": {"message": "Title is required and cannot be empty"},
-        "package": {"message": "Package is required"},
-        "lastDate": {"message": "Last Date is required"},
-        "vacancy": {"message": "Vacancy must be a positive number", "validate": lambda v: v > 0}
-    }
-
-    # Validate mandatory fields
-    for field, rule in mandatory_fields.items():
-        value = data.get(field)
-        print(f"Validating {field}: {value} (type: {type(value)})")  # Debug: Log each field
-        if value is None or (rule.get("validate") and not rule["validate"](value)) or (not rule.get("validate") and str(value).strip() == ""):
-            return jsonify({"error": rule["message"], "field": field}), 400
-
     # Process skills and keywords if they are strings (from your frontend)
     if isinstance(data.get("skills"), str):
         data["skills"] = [s.strip() for s in data["skills"].split(",") if s.strip()]
     if isinstance(data.get("keywords"), str):
         data["keywords"] = [k.strip() for k in data["keywords"].split(",") if k.strip()]
 
-    # Validate skills and keywords
-    if len(data.get("skills", [])) == 0:
-        return jsonify({"error": "At least one skill is required", "field": "skills"}), 400
-    if len(data["keywords"]) == 0:
-        return jsonify({"error": "At least one keyword is required", "field": "keywords"}), 400
+    # Log processed skills and keywords
+    skills = data.get("skills", [])
+    keywords = data.get("keywords", [])
+    print(f"Processed skills: {skills}, keywords: {keywords}")  # Debug: Log processed values
 
-    # Generate the description
+    # Generate the description without validation
     try:
         response = generate_description(data)
+        print("Generated description:", response[:100] + "...")  # Debug: Log the first 100 chars of the response
         return jsonify({'description': response})
     except Exception as e:
         print("Error in /generate:", str(e))  # Debug: Log any exceptions
@@ -61,4 +40,4 @@ def generate():
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 4000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=port, debug=True)  # Debug mode for better error logging

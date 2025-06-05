@@ -110,7 +110,6 @@ Format:
 Format: 
 <b>Company:</b> [Company Name]  
 <b>Location:</b> [City/Remote/Hybrid]  
-<b>Internship Type:</b> Paid Internship  
 
 <b>About the Company:</b>  
 [Brief overview.]
@@ -135,7 +134,6 @@ Format:
 
 <b>Duration:</b> [X weeks/months]  
 """
-
     elif post_type == "internship(unpaid)":
         intro_instruction = "Create an unpaid internship post that is inviting to students or fresh graduates. Emphasize learning, mentorship, networking opportunities, and other non-monetary benefits to attract candidates. Keep the tone encouraging and professional."
         format_instruction = """
