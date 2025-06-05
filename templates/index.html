@@ -81,7 +81,7 @@
       #freshers, #experienced {
         margin-right: 5px;
       }
-      #companyName, #companyType, #postFor, #postType, #address, #title, #titleCategory, #package, #lastDate, #vacancy, #skills, #keywords, #wordCount, #description {
+      #companyName, #companyType, #postFor, #postType, #address, #title, #package, #lastDate, #vacancy, #skills, #keywords, #wordCount, #description {
         min-width: calc(100% - 40px);
         display: inline-block;
       }
@@ -180,9 +180,8 @@
         width: 100%;
         max-width: 300px;
       }
-      .title-group select,
       .title-group input[type="text"] {
-        width: 50%;
+        width: 100%;
         max-width: none;
       }
       @media (max-width: 480px) {
@@ -190,7 +189,6 @@
           flex-direction: column;
           align-items: stretch;
         }
-        .title-group select,
         .title-group input[type="text"] {
           width: 100%;
         }
@@ -277,17 +275,6 @@
       <div class="form-group">
         <label class="required">Title:</label>
         <div class="title-group">
-          <select id="titleCategory" required>
-            <option value="">Select Category</option>
-            <option>Admin & Operation</option>
-            <option>Business Analyst</option>
-            <option>Cyber Security</option>
-            <option>Data Analyst</option>
-            <option>Developer</option>
-            <option>HR</option>
-            <option>Sales & Marketing</option>
-            <option>UI/UX Design</option>
-          </select>
           <input type="text" id="title" placeholder="Enter Job Title (e.g., Software Engineer)" required>
         </div>
         <span id="title-error" class="error-message"></span>
@@ -447,7 +434,6 @@
           { id: "postFor", message: "Required: Please select Post For" },
           { id: "postType", message: "Required: Please select a Post Type" },
           { id: "address", message: "Required: Please fill this field" },
-          { id: "titleCategory", message: "Required: Please select a Title Category" },
           { id: "title", message: "Required: Please enter a Job Title" },
           { id: "package", message: "Required: Please enter a salary range" },
           { id: "lastDate", message: "Required: Please select a date" },
@@ -503,7 +489,6 @@
           postType: document.getElementById("postType").value,
           location: document.querySelector('input[name="location"]:checked').value,
           address: document.getElementById("address").value,
-          titleCategory: document.getElementById("titleCategory").value,
           title: document.getElementById("title").value,
           package: salaryRange,
           lastDate: document.getElementById("lastDate").value,
@@ -586,6 +571,5 @@
         }
       });
     </script>
-  </div>
-</body>
+  </body>
 </html>
