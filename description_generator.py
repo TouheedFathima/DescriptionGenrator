@@ -212,8 +212,6 @@ Format:
 </ul>
 
 <b>Contract Duration:</b> [e.g., 6 months (if provided)]  
-<b>Compensation:</b> [Monthly/Total contract value (if provided)]  
-<b>Deadline to Apply:</b> [Date (if provided)]
 """
     elif post_type == "project(freelancers)":
         intro_instruction = "Generate a project collaboration post for individual freelancers. This is not a job but an opportunity for freelancers to contribute to a specific project with clear goals and timelines. Focus on skillset needed, project objectives, and payment terms. Keep the tone flexible and appealing to independent professionals."
