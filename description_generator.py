@@ -149,8 +149,6 @@ Format:
 <ul>
     <li>[List of duties.]</li>
 </ul>
-
-<b>Stipend:</b> [Monthly stipend amount (if provided)]  
 <b>Duration:</b> [X weeks/months (if provided)]  
 """
     elif post_type == "Internship (Unpaid)":
