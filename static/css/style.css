@@ -1,0 +1,261 @@
+
+       @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Lato&family=Roboto&family=Inter&display=swap');
+      body {
+        font-family: Arial, sans-serif;
+        background: #e7e9ee;
+        padding: 20px;
+      }
+      .container {
+        width: 100%;
+        max-width: 700px;
+        margin: 0 auto;
+      }
+      .button-group {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      .required:after {
+        content: " *";
+        color: red;
+      }
+      select, input[type="text"], input[type="date"], input[type="number"], input[type="email"], input[type="tel"] {
+        padding: 10px;
+        width: 100%;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+      }
+      .radio-group input {
+        margin-right: 5px;
+      }
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 10px;
+        color: white;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.1s;
+        display: inline-block;
+      }
+      .radio-group {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 5px;
+      }
+      .radio-group label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: normal;
+        margin: 0;
+      }
+      .radio-group input[type="checkbox"],
+      .radio-group input[type="radio"] {
+        margin: 0;
+        transform: scale(1.1);
+      }
+      .create-btn {
+        background: #007bff;
+      }
+      .create-btn:hover {
+        background: #0056b3;
+      }
+      .create-btn:active {
+        transform: scale(0.97);
+        background: #004a99;
+      }
+      .pass-btn {
+        background: #ff9800;
+      }
+      .pass-btn:hover {
+        background: #e68900;
+      }
+      .pass-btn:active {
+        transform: scale(0.97);
+        background: #d17a00;
+      }
+      .submit-btn {
+        min-width: calc(100% - 40px);
+      }
+      #createSubmitBtn, #passGenerateBtn {
+        background: #007bff;
+      }
+      #createSubmitBtn:hover, #passGenerateBtn:hover {
+        background: #0056b3;
+      }
+      #createSubmitBtn:active, #passGenerateBtn:active {
+        background: #004a99;
+      }
+      #passSubmitBtn {
+        background: #4caf50;
+      }
+      #passSubmitBtn:hover {
+        background: #43a047;
+      }
+      #passSubmitBtn:active {
+        background: #388e3c;
+      }
+      #freshers, #experienced {
+        margin-right: 5px;
+      }
+      #companyName, #companyType, #postFor, #postType, #address, #title, #package, #lastDate, #vacancy, #skills, #keywords, #wordCount, #description {
+        min-width: calc(100% - 40px);
+        display: inline-block;
+      }
+      #chatbox {
+        min-width: calc(100% - 40px);
+        display: inline-block;
+        position: static;
+        margin-top: 20px;
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 320px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      }
+      #descriptionResult {
+        width: 100%;
+        height: 800px;
+        max-height: 800px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background: #f8f9fa;
+        resize: none;
+        box-sizing: border-box;
+        font-family: inherit;
+        white-space: pre-wrap;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+      #salaryRange {
+        display: none;
+        margin-top: 10px;
+      }
+      #passSalaryRange {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      #downloadBtn, #copyBtn {
+        display: none;
+        margin-top: 10px;
+      }
+      #downloadBtn {
+        background: #28a745;
+      }
+      #copyBtn {
+        background: #28a745;
+      }
+      @media (max-width: 480px) {
+        select,
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        input[type="email"],
+        input[type="tel"] {
+          width: 100%;
+          max-width: 100%;
+        }
+        #chatbox {
+          position: static;
+          margin-top: 20px;
+          width: 100%;
+          max-width: none;
+        }
+        #passSalaryRange {
+          flex-direction: column;
+        }
+      }
+      .toolbar {
+        margin-bottom: 10px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .toolbar button {
+        padding: 6px 10px;
+        font-size: 16px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        background: white;
+        cursor: pointer;
+      }
+      .toolbar button:hover {
+        background: #ddd;
+      }
+      textarea {
+        padding: 10px;
+        width: 100%;
+        max-width: 300px;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        font-family: inherit;
+        display: inline-block;
+      }
+      .error-message {
+        color: red;
+        font-size: 12px;
+        margin-top: 5px;
+      }
+      .title-group {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        width: 100%;
+      }
+      .title-group input[type="text"] {
+        width: 100%;
+        max-width: none;
+      }
+      @media (max-width: 480px) {
+        .title-group {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .title-group input[type="text"] {
+          width: 100%;
+        }
+      }
+      #createForm, #passForm {
+        display: none;
+        margin-top: 20px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+      }
+      #createForm .form-group, #passForm .form-group {
+        margin-bottom: 10px;
+      }
+      .checkbox-group {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+      .checkbox-group label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: normal;
+        margin: 0;
+      }
+  

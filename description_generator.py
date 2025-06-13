@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain.prompts import ChatPromptTemplate
 from langchain.chains import LLMChain
-import html  # For escaping special characters
+import html  
 
 load_dotenv()
 
@@ -22,10 +22,10 @@ def clean_html_spacing(html):
     return cleaned_html
 
 def generate_description(data):
-    word_count = data.get("wordCount", 1000) or 1000  # Default to 1000 if missing or falsy
-    post_type = (data.get("postType", "") or "")# Default to empty string if missing
-    company_name = (data.get("companyName", "") or "Individual").strip()  # Default to "Individual"
-    title = html.escape(data.get("title", "") or "Untitled Role")  # Default to "Untitled Role"
+    word_count = data.get("wordCount", 1000) or 1000  
+    post_type = (data.get("postType", "") or "")
+    company_name = (data.get("companyName", "") or "Individual").strip() 
+    title = html.escape(data.get("title", "") or "Untitled Role")  
     combined_title = title  
     # Default empty lists for skills and keywords
     skills = data.get("skills", []) or []
@@ -342,5 +342,152 @@ Additional Info Provided by User:
         "skills": ", ".join(skills) if skills else "Not specified",
         "keywords": ", ".join(keywords) if keywords else "Not specified"
     })
+    cleaned_response = clean_html_spacing(response)
+    return cleaned_response
+
+def generate_pass_opportunity_description(data):
+    """
+    Generate a professional description for passing an opportunity using the fields from the Pass an Opportunity form.
+    The output is formatted in HTML, suitable for display in the descriptionResult div.
+    """
+    # Extract and sanitize fields from the data
+    company_name = html.escape(data.get("companyName", "") or "Individual").strip()
+    opportunity_title = html.escape(data.get("opportunityTitle", "") or "Untitled Opportunity")
+    opportunity_type = data.get("opportunityType", "") or "Not specified"
+    location = data.get("location", "") or "Not specified"
+    work_mode = data.get("workMode", "") or "Not specified"
+    number_of_openings = data.get("numberOfOpenings", 1) if data.get("numberOfOpenings") and data.get("numberOfOpenings") > 0 else 1
+    last_date = data.get("lastDate", "") or "Not specified"
+    education_requirements = data.get("educationRequirements", "") or "Not specified"
+    industry_expertise = data.get("industryExpertise", "") or "Not specified"
+    preferred_experience = data.get("preferredExperience", "") or "Not specified"
+    skills_required = data.get("skillsRequired", "") or "Not specified"
+    language_preference = data.get("languagePreference", "") or "Not specified"
+    gender_preference = data.get("genderPreference", "") or "Not specified"
+    salary_min = data.get("salaryMin", 0)
+    salary_max = data.get("salaryMax", 0)
+    salary_options = data.get("salaryOptions", [])
+    time_commitment = data.get("timeCommitment", "") or "Not specified"
+    recruiter_name = html.escape(data.get("recruiterName", "") or "Not specified")
+    phone_number = html.escape(data.get("phoneNumber", "") or "Not specified")
+    email_address = html.escape(data.get("emailAddress", "") or "Not specified")
+
+    # Process skills (convert to list if string)
+    if isinstance(skills_required, str):
+        skills = [s.strip() for s in skills_required.split(",") if s.strip()]
+    else:
+        skills = skills_required or []
+
+    # Combine important words for bolding (remove duplicates)
+    important_words = list(set([company_name] + skills))
+    important_words = [word for word in important_words if word]
+
+    # Construct the salary string
+    salary_options_str = f" ({', '.join(salary_options)})" if salary_options else ""
+    salary_str = f"₹{salary_min} - ₹{salary_max}{salary_options_str}" if salary_min and salary_max else "Competitive compensation"
+
+    # LLM setup (same as generate_description)
+    llm = ChatGroq(
+        temperature=0.7,
+        groq_api_key=os.getenv("GROQ_API_KEY"),
+        model_name="llama3-70b-8192"
+    )
+
+    # Define the prompt for Pass an Opportunity
+    intro_instruction = "Generate a professional description for passing an opportunity to a recruiter or candidate. The tone should be formal and informative, suitable for sharing with professionals."
+    format_instruction = """
+Format:
+<b>Opportunity Passed:</b> [Opportunity Title]  
+<b>Company:</b> [Company Name]  
+<b>Type:</b> [Opportunity Type]  
+<b>Location:</b> [Location]  
+<b>Work Mode:</b> [Work Mode]  
+
+<b>About the Opportunity:</b>  
+[Brief introduction to the opportunity, including the number of openings and last date to apply.]
+
+<b>Requirements:</b>  
+<ul>
+    <li>Education: [Education requirements (if provided, otherwise generic).]</li>
+    <li>Industry Expertise: [Industry expertise (if provided, otherwise generic).]</li>
+    <li>Preferred Experience: [Preferred experience (if provided, otherwise generic).]</li>
+    <li>Skills: [Skills required.]</li>
+    <li>Language Preference: [Language preference (if provided, otherwise generic).]</li>
+    <li>Gender Preference: [Gender preference (if provided, otherwise generic).]</li>
+</ul>
+
+<b>Compensation:</b>  
+[Salary range and any salary options (e.g., Negotiable).]  
+<b>Time Commitment:</b> [Time commitment]  
+
+<b>Contact Information:</b>  
+<b>Recruiter:</b> [Recruiter Name]  
+<b>Contact:</b> [Phone Number], [Email Address]  
+"""
+
+    prompt = ChatPromptTemplate.from_template(f"""
+    {intro_instruction}
+
+    Generate a professional opportunity description using the following details:
+
+    - Company Name: {{companyName}}
+    - Opportunity Title: {{opportunityTitle}}
+    - Opportunity Type: {{opportunityType}}
+    - Location: {{location}}
+    - Work Mode: {{workMode}}
+    - Number of Openings: {{numberOfOpenings}}
+    - Last Date to Apply: {{lastDate}}
+    - Education Requirements: {{educationRequirements}}
+    - Industry Expertise: {{industryExpertise}}
+    - Preferred Experience: {{preferredExperience}}
+    - Skills Required: {{skillsRequired}}
+    - Language Preference: {{languagePreference}}
+    - Gender Preference: {{genderPreference}}
+    - Salary Range: {{salaryRange}}
+    - Time Commitment: {{timeCommitment}}
+    - Recruiter Name: {{recruiterName}}
+    - Phone Number: {{phoneNumber}}
+    - Email Address: {{emailAddress}}
+
+    Important words to bold: {', '.join(important_words) if important_words else 'None'}
+
+    {format_instruction}
+
+    Instructions:
+    - Use only <b>, not ** for bold.
+    - Your response should be suitable for direct copy-pasting into a web page or email client that supports HTML formatting. Use only valid HTML tags.
+    - Use bullet points where appropriate.
+    - For all <ul> lists, ensure there are NO extra line breaks or spaces between <li> elements.
+    - Ensure exactly two <br> tags between sections for clean spacing.
+    - Output should be ready to copy-paste into LinkedIn/email without editing.
+    - Within paragraph sections, bold the important words listed above using <b> tags. Do NOT bold words within <ul> lists.
+    - Ensure the response is at least 200 words. Expand each section thoughtfully with relevant details.
+    - Make the tone formal and professional, suitable for sharing with recruiters or candidates.
+    - If any field is missing or empty, use generic placeholders (e.g., 'Not specified' for location, 'Competitive compensation' for salary).
+    """)
+
+    chain = LLMChain(llm=llm, prompt=prompt)
+    response = chain.run({
+        "companyName": company_name,
+        "opportunityTitle": opportunity_title,
+        "opportunityType": opportunity_type,
+        "location": location,
+        "workMode": work_mode,
+        "numberOfOpenings": number_of_openings,
+        "lastDate": last_date,
+        "educationRequirements": education_requirements,
+        "industryExpertise": industry_expertise,
+        "preferredExperience": preferred_experience,
+        "skillsRequired": ", ".join(skills) if skills else "Not specified",
+        "languagePreference": language_preference,
+        "genderPreference": gender_preference,
+        "salaryRange": salary_str,
+        "timeCommitment": time_commitment,
+        "recruiterName": recruiter_name,
+        "phoneNumber": phone_number,
+        "emailAddress": email_address
+    })
+
+    # Clean the HTML output
     cleaned_response = clean_html_spacing(response)
     return cleaned_response

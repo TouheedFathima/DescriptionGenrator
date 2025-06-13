@@ -4,359 +4,318 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Description Generator</title>
-    <style>
-       @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Lato&family=Roboto&family=Inter&display=swap');
-      body {
-        font-family: Arial, sans-serif;
-        background: #e7e9ee;
-        padding: 20px;
-      }
-      .container {
-        width: 100%;
-        max-width: 700px;
-        margin: 0 auto;
-      }
-      .form-group {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 15px;
-      }
-      label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 5px;
-      }
-      .required:after {
-        content: " *";
-        color: red;
-      }
-      select, input[type="text"], input[type="date"], input[type="number"] {
-        padding: 10px;
-        width: 100%;
-        max-width: 300px;
-        border-radius: 20px;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
-      }
-      .radio-group input {
-        margin-right: 5px;
-      }
-      .btn {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 10px;
-        background: #007bff;
-        color: white;
-        cursor: pointer;
-        transition: background 0.2s, transform 0.1s;
-        min-width: calc(100% - 40px);
-        display: inline-block;
-      }
-      .radio-group {
-        display: flex;
-        gap: 30px;
-        align-items: center;
-        flex-wrap: wrap;
-        margin-top: 5px;
-      }
-      .radio-group label {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-weight: normal;
-        margin: 0;
-      }
-      .radio-group input[type="checkbox"],
-      .radio-group input[type="radio"] {
-        margin: 0;
-        transform: scale(1.1);
-      }
-      .btn:hover {
-        background: #0056b3;
-      }
-      .btn:active {
-        transform: scale(0.97);
-        background: #004a99;
-      }
-      #freshers, #experienced {
-        margin-right: 5px;
-      }
-      #companyName, #companyType, #postFor, #postType, #address, #title, #package, #lastDate, #vacancy, #skills, #keywords, #wordCount, #description {
-        min-width: calc(100% - 40px);
-        display: inline-block;
-      }
-      #chatbox {
-        min-width: calc(100% - 40px);
-        display: inline-block;
-        position: static;
-        margin-top: 20px;
-        background: white;
-        padding: 15px;
-        border-radius: 10px;
-        width: 100%;
-        max-width: 320px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      }
-      #descriptionResult {
-        width: 100%;
-        height: 800px;
-        max-height: 800px;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        background: #f8f9fa;
-        resize: none;
-        box-sizing: border-box;
-        font-family: inherit;
-        white-space: pre-wrap;
-        overflow-y: auto;
-        overflow-x: hidden;
-      }
-      #salaryRange {
-        display: none;
-        margin-top: 10px;
-      }
-      #downloadBtn, #copyBtn {
-        display: none;
-        margin-top: 10px;
-      }
-      #downloadBtn {
-        background: #28a745;
-      }
-      #copyBtn {
-        background: #28a745;
-      }
-      @media (max-width: 480px) {
-        select,
-        input[type="text"],
-        input[type="date"],
-        input[type="number"] {
-          width: 100%;
-          max-width: 100%;
-        }
-        #chatbox {
-          position: static;
-          margin-top: 20px;
-          width: 100%;
-          max-width: none;
-        }
-      }
-      .toolbar {
-        margin-bottom: 10px;
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-      }
-      .toolbar button {
-        padding: 6px 10px;
-        font-size: 16px;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        background: white;
-        cursor: pointer;
-      }
-      .toolbar button:hover {
-        background: #ddd;
-      }
-      textarea {
-        padding: 10px;
-        width: 100%;
-        max-width: 300px;
-        border-radius: 20px;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
-        font-family: inherit;
-        display: inline-block;
-      }
-      .error-message {
-        color: red;
-        font-size: 12px;
-        margin-top: 5px;
-      }
-      .title-group {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        width: 100%;
-        max-width: 300px;
-      }
-      .title-group input[type="text"] {
-        width: 100%;
-        max-width: none;
-      }
-      @media (max-width: 480px) {
-        .title-group {
-          flex-direction: column;
-          align-items: stretch;
-        }
-        .title-group input[type="text"] {
-          width: 100%;
-        }
-      }
-    </style>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <script src="/static/js/script.js"></script>
   </head>
   <body>
     <div class="container">
       <h2>Description Generator</h2>
-      <div class="form-group">
-        <label for="companyType" class="required">Recruiter Type:</label>
-        <select id="companyType" required>
-          <option value="">Select</option>
-          <option>Adept</option>
-          <option>Entrepreneur</option>
-        </select>
-        <span id="companyType-error" class="error-message"></span>
-      </div>
-
-      <div class="form-group">
-        <label for="companyName">Company Name:</label>
-        <input type="text" id="companyName" placeholder="Not required for Adept recruitment – leave blank or enter 'Individual' if hiring personally." />
-        <span id="companyName-error" class="error-message"></span>
-      </div>
-      
-      <div class="form-group">
-        <label for="postFor" class="required">Post For:</label>
-        <select id="postFor" required>
-          <option value="">Select</option>
-          <option>For my company</option>
-          <option>For myself</option>
-        </select>
-        <span id="postFor-error" class="error-message"></span>
-      </div>
-
-      <div class="form-group">
-        <label for="postType" class="required">Post Type:</label>
-        <select id="postType" required>
-          <option value="">Select</option>
-          <option>Internship (Stipend)</option>
-          <option>Internship (Unpaid)</option>
-          <option>Part time</option>
-          <option>Full time</option>          
-          <option>Contract</option>
-          <option>Project (freelancers)</option>
-          <option>Project (Service companies)</option>
-        </select>
-        <span id="postType-error" class="error-message"></span>
-      </div>
-
-      <div class="form-group">
-        <label>Eligibility Criteria:</label>
-        <div class="radio-group">
-          <label for="freshers">
-            <input type="checkbox" id="freshers" value="Freshers"> Freshers
-          </label>
-          <label for="experienced">
-            <input type="checkbox" id="experienced" value="Experienced"> Experienced
-          </label>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="required">Location:</label>
-        <div class="radio-group">
-          <label>
-            <input type="radio" name="location" value="Onsite" checked> Onsite
-          </label>
-          <label>
-            <input type="radio" name="location" value="Remote"> Remote
-          </label>
-          <label>
-            <input type="radio" name="location" value="Hybrid"> Hybrid
-          </label>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="address" class="required">Address:</label>
-        <input type="text" id="address" placeholder="Enter Address" required>
-        <span id="address-error" class="error-message"></span>
-      </div>
-
-      <div class="form-group">
-        <label class="required">Title:</label>
-        <div class="title-group">
-          <input type="text" id="title" placeholder="Enter Job Title (e.g., Software Engineer)" required>
-        </div>
-        <span id="title-error" class="error-message"></span>
-      </div>
-
-      <div class="form-group">
-        <label for="package" class="required">Package:</label>
-        <input type="text" id="package" placeholder="Click to enter range" readonly onclick="showSalaryRange()" required>
-        <div id="salaryRange" style="display: none; margin-top: 10px;">
-          <input type="number" id="salaryFrom" placeholder="From ₹" oninput="updatePackageValue()" />
-          <input type="number" id="salaryTo" placeholder="To ₹" oninput="updatePackageValue()" />
-        </div>
-        <span id="package-error" class="error-message"></span>
-      </div>
-
-      <div class="form-group">
-        <label for="lastDate" class="required">Last Date for submission:</label>
-        <input type="date" id="lastDate" required>
-        <span id="lastDate-error" class="error-message"></span>
-      </div>
-
-      <div class="form-group">
-        <label for="vacancy" class="required">No. of Vacancy:</label>
-        <input type="number" id="vacancy" value="0" min="0" required>
-        <span id="vacancy-error" class="error-message"></span>
-      </div>
-
-      <div class="form-group">
-        <label for="skills" class="required">Skills:</label>
-        <input type="text" id="skills" placeholder="Comma separated" required>
-        <span id="skills-error" class="error-message"></span>
-      </div>
-
-      <div class="form-group">
-        <label for="keywords" class="required">Keywords:</label>
-        <input type="text" id="keywords" placeholder="Comma separated" required>
-        <span id="keywords-error" class="error-message"></span>
-      </div>
-
-      <div class="form-group">
-        <label for="description">Describe the Post:</label>
-        <textarea id="description" rows="4" placeholder="Describe the type of post and for whom it is meant..."></textarea>
-        <span id="description-error" class="error-message"></span>
-      </div>
-
-      <div class="form-group">
-        <label>Other Benefits:</label>
-        <div class="radio-group" style="flex-wrap: wrap; gap: 10px;">
-          <label>
-            <input type="checkbox" value="Transport">
-            <img src="https://cdn-icons-png.flaticon.com/512/854/854894.png" width="30" alt="Transport">
-            Transport
-          </label>
-          <label>
-            <input type="checkbox" value="Food & Beverages">
-            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" width="30" alt="Food">
-            Food & Beverages
-          </label>
-          <label>
-            <input type="checkbox" value="Medical Insurance">
-            <img src="https://cdn-icons-png.flaticon.com/512/2209/2209673.png" width="30" alt="Insurance">
-            Medical Insurance
-          </label>
-          <label>
-            <input type="checkbox" value="Employee Stock Options">
-            <img src="https://cdn-icons-png.flaticon.com/512/1029/1029183.png" width="30" alt="Stock">
-            Employee Stock
-          </label>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="wordCount">Number of Words for Description (Optional):</label>
-        <input type="number" id="wordCount" placeholder="e.g. 200">
-        <span id="wordCount-error" class="error-message"></span>
-      </div>
-
-      <div class="form-group">
-        <button class="btn" onclick="generateDescription()">
-          <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="Chatbot" width="30" style="vertical-align: middle;">
-          Generate
+      <!-- Two Buttons at the Top -->
+      <div class="button-group">
+        <button class="btn create-btn" onclick="showCreateForm()">
+          Create New Opportunity
         </button>
+        <button class="btn pass-btn" onclick="showPassForm()">
+          Pass an Opportunity
+        </button>
+      </div>
+
+      <!-- Create New Opportunity Form -->
+      <div id="createForm">
+        <h3>Create New Opportunity</h3>
+        <div class="form-group">
+          <label for="companyType" class="required">Recruiter Type:</label>
+          <select id="companyType" required>
+            <option value="">Select</option>
+            <option>Adept</option>
+            <option>Entrepreneur</option>
+          </select>
+          <span id="companyType-error" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="companyName">Company Name:</label>
+          <input type="text" id="companyName" placeholder="Not required for Adept recruitment – leave blank or enter 'Individual' if hiring personally." />
+          <span id="companyName-error" class="error-message"></span>
+        </div>
+        
+        <div class="form-group">
+          <label for="postFor" class="required">Post For:</label>
+          <select id="postFor" required>
+            <option value="">Select</option>
+            <option>For my company</option>
+            <option>For myself</option>
+          </select>
+          <span id="postFor-error" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="postType" class="required">Post Type:</label>
+          <select id="postType" required>
+            <option value="">Select</option>
+            <option>Internship (Stipend)</option>
+            <option>Internship (Unpaid)</option>
+            <option>Part time</option>
+            <option>Full time</option>          
+            <option>Contract</option>
+            <option>Project (freelancers)</option>
+            <option>Project (Service companies)</option>
+          </select>
+          <span id="postType-error" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label>Eligibility Criteria:</label>
+          <div class="radio-group">
+            <label for="freshers">
+              <input type="checkbox" id="freshers" value="Freshers"> Freshers
+            </label>
+            <label for="experienced">
+              <input type="checkbox" id="experienced" value="Experienced"> Experienced
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="required">Location:</label>
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="location" value="Onsite" checked> Onsite
+            </label>
+            <label>
+              <input type="radio" name="location" value="Remote"> Remote
+            </label>
+            <label>
+              <input type="radio" name="location" value="Hybrid"> Hybrid
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="address" class="required">Address:</label>
+          <input type="text" id="address" placeholder="Enter Address" required>
+          <span id="address-error" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="required">Title:</label>
+          <div class="title-group">
+            <input type="text" id="title" placeholder="Enter Job Title (e.g., Software Engineer)" required>
+          </div>
+          <span id="title-error" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="package" class="required">Package:</label>
+          <input type="text" id="package" placeholder="Click to enter range" readonly onclick="showSalaryRange()" required>
+          <div id="salaryRange" style="display: none; margin-top: 10px;">
+            <input type="number" id="salaryFrom" placeholder="From ₹" oninput="updatePackageValue()" />
+            <input type="number" id="salaryTo" placeholder="To ₹" oninput="updatePackageValue()" />
+          </div>
+          <span id="package-error" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="lastDate" class="required">Last Date for submission:</label>
+          <input type="date" id="lastDate" required>
+          <span id="lastDate-error" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="vacancy" class="required">No. of Vacancy:</label>
+          <input type="number" id="vacancy" value="0" min="0" required>
+          <span id="vacancy-error" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="skills" class="required">Skills:</label>
+          <input type="text" id="skills" placeholder="Comma separated" required>
+          <span id="skills-error" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="keywords" class="required">Keywords:</label>
+          <input type="text" id="keywords" placeholder="Comma separated" required>
+          <span id="keywords-error" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Describe the Post:</label>
+          <textarea id="description" rows="4" placeholder="Describe the type of post and for whom it is meant..."></textarea>
+          <span id="description-error" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label>Other Benefits:</label>
+          <div class="radio-group" style="flex-wrap: wrap; gap: 10px;">
+            <label>
+              <input type="checkbox" value="Transport">
+              <img src="https://cdn-icons-png.flaticon.com/512/854/854894.png" width="30" alt="Transport">
+              Transport
+            </label>
+            <label>
+              <input type="checkbox" value="Food & Beverages">
+              <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" width="30" alt="Food">
+              Food & Beverages
+            </label>
+            <label>
+              <input type="checkbox" value="Medical Insurance">
+              <img src="https://cdn-icons-png.flaticon.com/512/2209/2209673.png" width="30" alt="Insurance">
+              Medical Insurance
+            </label>
+            <label>
+              <input type="checkbox" value="Employee Stock Options">
+              <img src="https://cdn-icons-png.flaticon.com/512/1029/1029183.png" width="30" alt="Stock">
+              Employee Stock
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="wordCount">Number of Words for Description (Optional):</label>
+          <input type="number" id="wordCount" placeholder="e.g. 200">
+          <span id="wordCount-error" class="error-message"></span>
+        </div>
+
+        <div class="form-group">
+          <button class="btn submit-btn" id="createSubmitBtn" onclick="generateDescription()">
+            <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="Chatbot" width="30" style="vertical-align: middle;">
+            Generate
+          </button>
+        </div>
+      </div>
+
+      <!-- Pass an Opportunity Form -->
+      <div id="passForm">
+        <h3>Pass an Opportunity</h3>
+        <div class="form-group">
+          <label for="passCompanyName" class="required">Company Name:</label>
+          <input type="text" id="passCompanyName" placeholder="Enter Company Name (e.g., Manvian)" autocomplete="off">
+          <span id="passCompanyName-error" class="error-message"></span>
+        </div>
+        <div class="form-group">
+          <label for="passOpportunityTitle" class="required">Opportunity Title:</label>
+          <input type="text" id="passOpportunityTitle" placeholder="Enter Opportunity Title (e.g., Senior Developer)">
+          <span id="passOpportunityTitle-error" class="error-message"></span>
+        </div>
+        <div class="form-group">
+          <label for="passOpportunityType" class="required">Opportunity Type:</label>
+          <select id="passOpportunityType" required>
+            <option value="">Select</option>
+            <option>Internship (Stipend)</option>
+            <option>Internship (Unpaid)</option>
+            <option>Part time</option>
+            <option>Full time</option>          
+            <option>Contract</option>
+            <option>Project (freelancers)</option>
+            <option>Project (Service companies)</option>
+          </select>
+          <span id="passOpportunityType-error" class="error-message"></span>
+        </div>
+        <div class="form-group">
+          <label for="passLocation" class="required">Location:</label>
+          <input type="text" id="passLocation" placeholder="Enter Location (e.g., Chennai, India)">
+          <span id="passLocation-error" class="error-message"></span>
+        </div>
+        <div class="form-group">
+          <label for="passWorkMode" class="required">Work Mode:</label>
+          <select id="passWorkMode" required>
+            <option value="">Select</option>
+            <option value="Onsite">On-site</option>
+            <option value="Remote">Remote</option>
+            <option value="Hybrid">Hybrid</option>
+          </select>
+          <span id="passWorkMode-error" class="error-message"></span>
+        </div>
+        <div class="form-group">
+          <label for="passNumberOfOpenings" class="required">Number of Openings:</label>
+          <input type="number" id="passNumberOfOpenings" placeholder="Enter Number of Openings (e.g., 2)" min="1">
+          <span id="passNumberOfOpenings-error" class="error-message"></span>
+        </div>
+        <div class="form-group">
+          <label for="passLastDate" class="required">Last Date to Apply:</label>
+          <input type="date" id="passLastDate" placeholder="Select Last Date to Apply">
+          <span id="passLastDate-error" class="error-message"></span>
+        </div>
+        <div class="form-group">
+          <label for="passEducationRequirements">Education Requirements:</label>
+          <input type="text" id="passEducationRequirements" placeholder="Enter Education Requirements (e.g., Bachelor's in Computer Science)">
+          <span id="passEducationRequirements-error" class="error-message"></span>
+        </div>
+        <div class="form-group">
+          <label for="passIndustryExpertise">Industry Expertise:</label>
+          <input type="text" id="passIndustryExpertise" placeholder="Enter Industry Expertise (e.g., Technology)">
+          <span id="passIndustryExpertise-error" class="error-message"></span>
+        </div>
+        <div class="form-group">
+          <label for="passPreferredExperience">Preferred Experience:</label>
+          <input type="text" id="passPreferredExperience" placeholder="Enter Preferred Experience (e.g., 3-5 years)">
+          <span id="passPreferredExperience-error" class="error-message"></span>
+        </div>
+        <div class="form-group">
+          <label for="passSkillsRequired" class="required">Skills Required:</label>
+          <input type="text" id="passSkillsRequired" placeholder="Comma separated (e.g., Python, Node.js)">
+          <span id="passSkillsRequired-error" class="error-message"></span>
+        </div>
+        <div class="form-group">
+          <label for="passLanguagePreference">Language Preference:</label>
+          <input type="text" id="passLanguagePreference" placeholder="Enter Language Preference (e.g., English)">
+          <span id="passLanguagePreference-error" class="error-message"></span>
+        </div>
+        <div class="form-group">
+          <label for="passGenderPreference">Gender Preference:</label>
+          <input type="text" id="passGenderPreference" placeholder="Enter Gender Preference (e.g., No preference)">
+          <span id="passGenderPreference-error" class="error-message"></span>
+        </div>
+        <div class="form-group">
+          <label class="required">Salary:</label>
+          <div id="passSalaryRange">
+            <input type="number" id="passSalaryMin" placeholder="Min ₹ (e.g., 500000)">
+            <input type="number" id="passSalaryMax" placeholder="Max ₹ (e.g., 800000)">
+          </div>
+          <select id="passTimeCommitment" required style="margin-top: 10px;">
+            <option value="">Select Time Commitment</option>
+            <option value="1-3 months">1-3 months</option>
+            <option value="3-6 months">3-6 months</option>
+            <option value="6-12 months">6-12 months</option>
+            <option value="More than 12 months">More than 12 months</option>
+          </select>
+          <div class="checkbox-group">
+            <label>
+              <input type="checkbox" id="passSalaryNegotiable" value="Negotiable"> Negotiable
+            </label>
+            <label>
+              <input type="checkbox" id="passSalaryNotDisclose" value="Prefer Not to Disclose"> Prefer Not to Disclose
+            </label>
+            <label>
+              <input type="checkbox" id="passSalaryNotSure" value="Not Sure"> Not Sure
+            </label>
+          </div>
+          <span id="passSalaryMin-error" class="error-message"></span>
+          <span id="passSalaryMax-error" class="error-message"></span>
+          <span id="passTimeCommitment-error" class="error-message"></span>
+        </div>
+        <div class="form-group">
+          <label for="passRecruiterName" class="required">Recruiter Name:</label>
+          <input type="text" id="passRecruiterName" placeholder="Enter Recruiter Name (e.g., John Doe)">
+          <span id="passRecruiterName-error" class="error-message"></span>
+        </div>
+        <div class="form-group">
+          <label for="passPhoneNumber" class="required">Phone Number:</label>
+          <input type="tel" id="passPhoneNumber" placeholder="Enter Phone Number (e.g., +919876543210)">
+          <span id="passPhoneNumber-error" class="error-message"></span>
+        </div>
+        <div class="form-group">
+          <label for="passEmailAddress" class="required">Email Address:</label>
+          <input type="email" id="passEmailAddress" placeholder="Enter Email Address (e.g., john.doe@example.com)">
+          <span id="passEmailAddress-error" class="error-message"></span>
+        </div>
+        <div class="form-group">
+          <button class="btn submit-btn" id="passGenerateBtn" onclick="generatePassWithAI()">
+            <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="Chatbot" width="30" style="vertical-align: middle;">
+            Generate with AI
+          </button>
+        </div>
       </div>
 
       <div id="chatbox">
@@ -393,183 +352,5 @@
         </button>
       </div>
     </div>
-
-    <script>
-      function showSalaryRange() {
-        document.getElementById('salaryRange').style.display = 'block';
-        document.getElementById("salaryFrom").focus();
-      }
-
-      function updatePackageValue() {
-        const from = document.getElementById("salaryFrom").value;
-        const to = document.getElementById("salaryTo").value;
-        const packageInput = document.getElementById("package");
-
-        if (from && to) {
-          packageInput.value = `₹${from} - ₹${to}`;
-        }
-      }
-
-      function clearErrors() {
-        const errorElements = document.querySelectorAll('.error-message');
-        errorElements.forEach(el => el.textContent = '');
-        const inputs = document.querySelectorAll('input, select, textarea');
-        inputs.forEach(input => input.style.border = '');
-      }
-
-      function setError(field, message) {
-        const errorEl = document.getElementById(`${field}-error`);
-        const input = document.getElementById(field);
-        if (errorEl && input) {
-          errorEl.textContent = message;
-          input.style.border = "2px solid red";
-          input.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          input.focus();
-        }
-      }
-
-      function validateFields() {
-        const fields = [
-          { id: "companyType", message: "Required: Please select a Recruiter Type" },
-          { id: "postFor", message: "Required: Please select Post For" },
-          { id: "postType", message: "Required: Please select a Post Type" },
-          { id: "address", message: "Required: Please fill this field" },
-          { id: "title", message: "Required: Please enter a Job Title" },
-          { id: "package", message: "Required: Please enter a salary range" },
-          { id: "lastDate", message: "Required: Please select a date" },
-          { id: "vacancy", message: "Required: Vacancy must be a positive number", validate: value => parseInt(value) > 0 },
-          { id: "skills", message: "Required: At least one skill is required", validate: value => value.split(',').map(s => s.trim()).filter(s => s).length > 0 },
-          { id: "keywords", message: "Required: At least one keyword is required", validate: value => value.split(',').map(k => k.trim()).filter(k => k).length > 0 }
-        ];
-
-        clearErrors();
-
-        for (const field of fields) {
-          const input = document.getElementById(field.id);
-          const value = input.value.trim();
-          const isValid = field.validate ? field.validate(value) : value !== "";
-          if (!isValid) {
-            setError(field.id, field.message);
-            return false;
-          }
-        }
-        return true;
-      }
-
-      function generateDescription() {
-        if (!validateFields()) {
-          return;
-        }
-
-        const resultEl = document.getElementById("descriptionResult");
-        resultEl.innerHTML = "<em>Generating description... please wait.</em>";
-        resultEl.setAttribute("contenteditable", "false");
-        document.getElementById("chatbox").style.display = "block";
-        document.getElementById("downloadBtn").style.display = "none";
-        document.getElementById("copyBtn").style.display = "none";
-
-        const packageVal = document.getElementById("package").value;
-        const salaryFrom = document.getElementById("salaryFrom").value;
-        const salaryTo = document.getElementById("salaryTo").value;
-        const salaryRange = salaryFrom && salaryTo ? `₹${salaryFrom} - ₹${salaryTo}` : packageVal;
-
-        const eligibility = [];
-        if (document.getElementById("freshers")?.checked) eligibility.push("Freshers");
-        if (document.getElementById("experienced")?.checked) eligibility.push("Experienced");
-
-        const benefitCheckboxes = document.querySelectorAll('div.form-group input[type="checkbox"]:checked');
-        const benefits = Array.from(benefitCheckboxes)
-          .filter(checkbox => checkbox.value && !["Freshers", "Experienced"].includes(checkbox.value))
-          .map(cb => cb.value);
-
-        const payload = {
-          companyName: document.getElementById("companyName").value,
-          companyType: document.getElementById("companyType").value,
-          postFor: document.getElementById("postFor").value,
-          postType: document.getElementById("postType").value,
-          location: document.querySelector('input[name="location"]:checked').value,
-          address: document.getElementById("address").value,
-          title: document.getElementById("title").value,
-          package: salaryRange,
-          lastDate: document.getElementById("lastDate").value,
-          vacancy: parseInt(document.getElementById("vacancy").value),
-          skills: document.getElementById("skills").value,
-          keywords: document.getElementById("keywords").value,
-          description: document.getElementById('description').value,
-          wordCount: document.getElementById("wordCount").value || null,
-          eligibility: eligibility,
-          benefits: benefits
-        };
-
-        fetch('http://127.0.0.1:4000/generate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        })
-        .then(response => {
-          if (!response.ok) {
-            return response.json().then(err => { throw err; });
-          }
-          return response.json();
-        })
-        .then(data => {
-          resultEl.innerHTML = data.description;
-          resultEl.setAttribute("contenteditable", "true");
-          document.getElementById("chatbox").style.display = "block";
-          document.getElementById("downloadBtn").style.display = "inline-block";
-          document.getElementById("copyBtn").style.display = "inline-block";
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          if (error.field) {
-            setError(error.field, `Required: ${error.error}`);
-          } else {
-            resultEl.innerText = "Something went wrong!";
-          }
-          document.getElementById("chatbox").style.display = "block";
-          document.getElementById("downloadBtn").style.display = "none";
-          document.getElementById("copyBtn").style.display = "none";
-        });
-      }
-
-      function formatText(command) {
-        document.execCommand(command, false, null);
-      }
-
-      function copyToClipboard() {
-        const content = document.getElementById('descriptionResult').innerHTML;
-        const tempElem = document.createElement("div");
-        tempElem.innerHTML = content;
-        const text = tempElem.innerText;
-
-        navigator.clipboard.writeText(text).then(() => {
-          alert("Copied to clipboard!");
-        });
-      }
-
-      function downloadDescription() {
-        const content = document.getElementById('descriptionResult').innerHTML;
-        const text = content.replace(/<[^>]+>/g, '');
-        const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "description.txt";
-        link.click();
-      }
-
-      function changeFont(fontName) {
-        document.execCommand("fontName", false, fontName);
-      }
-
-      document.addEventListener("DOMContentLoaded", function() {
-        const dateInput = document.getElementById("lastDate");
-
-        if (dateInput && typeof dateInput.showPicker === 'function') {
-          dateInput.addEventListener("focus", function () {
-            this.showPicker();
-          });
-        }
-      });
-    </script>
   </body>
 </html>
